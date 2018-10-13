@@ -61,9 +61,9 @@ class TodoApplication {
 //        }
 
         routing {
-            get<TodoItems.Single> { item ->
-                val todo = service.get(item.id)
-                call.respond(HttpStatusCode.OK, todo)
+            get<TodoItems> {
+                val list = service.list()
+                call.respond(HttpStatusCode.OK, list)
             }
 
             post<TodoItems> {
@@ -72,19 +72,19 @@ class TodoApplication {
                 call.respond(HttpStatusCode.Created)
             }
 
-            delete<TodoItems.Single> { item ->
-                service.delete(item.id)
-                call.respond(HttpStatusCode.OK)
-            }
-
             delete<TodoItems> { item ->
                 service.clear()
                 call.respond(HttpStatusCode.OK)
             }
 
-            get<TodoItems> {
-                val list = service.list()
-                call.respond(HttpStatusCode.OK, list)
+            get<TodoItems.Single> { item ->
+                val todo = service.get(item.id)
+                call.respond(HttpStatusCode.OK, todo)
+            }
+
+            delete<TodoItems.Single> { item ->
+                service.delete(item.id)
+                call.respond(HttpStatusCode.OK)
             }
         }
     }
